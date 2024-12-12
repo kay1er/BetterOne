@@ -85,5 +85,38 @@ namespace BetterOne
             var message = Encoding.UTF8.GetBytes($"PLAY|{selectedFile}");
             stream.Write(message, 0, message.Length);
         }
+
+        private void btnUploadFile_Click(object sender, EventArgs e)
+        {
+            var selectedClient = comboBoxClients.SelectedItem?.ToString();
+            if (selectedClient == null || !clients.ContainsKey(selectedClient))
+            {
+                MessageBox.Show("Vui lòng chọn một client!");
+                return;
+            }
+
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.Filter = "All Files (*.*)|*.*";
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    var filePath = openFileDialog.FileName;
+                    var fileName = Path.GetFileName(filePath);
+
+                    var client = clients[selectedClient];
+                    var stream = client.GetStream();
+
+                    // Notify client about incoming file
+                    var message = Encoding.UTF8.GetBytes($"UPLOAD|{fileName}");
+                    stream.Write(message, 0, message.Length);
+
+                    // Send the file content
+                    var fileBytes = File.ReadAllBytes(filePath);
+                    stream.Write(fileBytes, 0, fileBytes.Length);
+
+                    MessageBox.Show("File uploaded successfully!");
+                }
+            }
+        }
     }
 }

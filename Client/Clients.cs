@@ -75,31 +75,55 @@ namespace Client
         {
             if (message == "GET_FILES")
             {
-                // Lấy danh sách file WAV từ thư mục
+                // Get list of WAV files in the folder
                 var files = Directory.GetFiles(musicFolder, "*.wav");
                 var fileList = string.Join("|", files);
 
-                // Gửi danh sách file về server
+                // Send file list back to the server
                 var response = Encoding.UTF8.GetBytes(fileList);
                 stream.Write(response, 0, response.Length);
 
-                listBoxLog.Items.Add("Đã gửi danh sách file WAV cho server.");
+                listBoxLog.Items.Add("Sent list of WAV files to server.");
             }
             else if (message.StartsWith("PLAY|"))
             {
-                // Phát file nhạc được yêu cầu
+                // Play the requested music file
                 var fileName = message.Split('|')[1];
-                if (File.Exists(fileName))
+                var filePath = Path.Combine(musicFolder, fileName);
+                if (File.Exists(filePath))
                 {
-                    var player = new SoundPlayer(fileName);
+                    var player = new SoundPlayer(filePath);
                     player.Play();
 
-                    listBoxLog.Items.Add($"Đang phát nhạc: {Path.GetFileName(fileName)}");
+                    listBoxLog.Items.Add($"Playing music: {fileName}");
                 }
                 else
                 {
-                    listBoxLog.Items.Add($"File không tồn tại: {fileName}");
+                    listBoxLog.Items.Add($"File does not exist: {fileName}");
                 }
+            }
+            else if (message.StartsWith("UPLOAD|"))
+            {
+                // Receive file from the server
+                var fileName = message.Split('|')[1];
+                var filePath = Path.Combine(musicFolder, fileName);
+
+                // Read the file content
+                using (var fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
+                {
+                    var buffer = new byte[4096];
+                    int bytesRead;
+                    while ((bytesRead = stream.Read(buffer, 0, buffer.Length)) > 0)
+                    {
+                        fileStream.Write(buffer, 0, bytesRead);
+
+                        // Break when file transfer is complete
+                        if (bytesRead < buffer.Length)
+                            break;
+                    }
+                }
+
+                listBoxLog.Items.Add($"File received and saved: {fileName}");
             }
         }
         private void btnBrowseFolder_Click(object sender, EventArgs e)

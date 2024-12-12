@@ -31,6 +31,7 @@
             comboBoxClients = new ComboBox();
             listBoxFiles = new ListBox();
             panel1 = new Panel();
+            btnUploadFile = new Button();
             btnPlayMusic = new Button();
             button2 = new Button();
             btnGetFiles = new Button();
@@ -58,6 +59,7 @@
             // 
             // panel1
             // 
+            panel1.Controls.Add(btnUploadFile);
             panel1.Controls.Add(btnPlayMusic);
             panel1.Controls.Add(button2);
             panel1.Controls.Add(btnGetFiles);
@@ -67,11 +69,21 @@
             panel1.Size = new Size(455, 100);
             panel1.TabIndex = 4;
             // 
+            // btnUploadFile
+            // 
+            btnUploadFile.Location = new Point(356, 3);
+            btnUploadFile.Name = "btnUploadFile";
+            btnUploadFile.Size = new Size(87, 94);
+            btnUploadFile.TabIndex = 8;
+            btnUploadFile.Text = "Upload Files";
+            btnUploadFile.UseVisualStyleBackColor = true;
+            btnUploadFile.Click += btnUploadFile_Click;
+            // 
             // btnPlayMusic
             // 
             btnPlayMusic.Location = new Point(148, 3);
             btnPlayMusic.Name = "btnPlayMusic";
-            btnPlayMusic.Size = new Size(146, 94);
+            btnPlayMusic.Size = new Size(101, 94);
             btnPlayMusic.TabIndex = 7;
             btnPlayMusic.Text = "Play";
             btnPlayMusic.UseVisualStyleBackColor = true;
@@ -88,9 +100,9 @@
             // 
             // btnGetFiles
             // 
-            btnGetFiles.Location = new Point(300, 3);
+            btnGetFiles.Location = new Point(255, 3);
             btnGetFiles.Name = "btnGetFiles";
-            btnGetFiles.Size = new Size(154, 94);
+            btnGetFiles.Size = new Size(87, 94);
             btnGetFiles.TabIndex = 5;
             btnGetFiles.Text = "Get Files";
             btnGetFiles.UseVisualStyleBackColor = true;
@@ -117,5 +129,6 @@
         private Button btnPlayMusic;
         private Button button2;
         private Button btnGetFiles;
+        private Button btnUploadFile;
     }
 }
