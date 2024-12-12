@@ -35,6 +35,7 @@
             btnPlayMusic = new Button();
             button2 = new Button();
             btnGetFiles = new Button();
+            btnDeleteFile = new Button();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -59,6 +60,7 @@
             // 
             // panel1
             // 
+            panel1.Controls.Add(btnDeleteFile);
             panel1.Controls.Add(btnUploadFile);
             panel1.Controls.Add(btnPlayMusic);
             panel1.Controls.Add(button2);
@@ -71,19 +73,19 @@
             // 
             // btnUploadFile
             // 
-            btnUploadFile.Location = new Point(356, 3);
+            btnUploadFile.Location = new Point(275, 3);
             btnUploadFile.Name = "btnUploadFile";
             btnUploadFile.Size = new Size(87, 94);
             btnUploadFile.TabIndex = 8;
-            btnUploadFile.Text = "Upload Files";
+            btnUploadFile.Text = "Upload File";
             btnUploadFile.UseVisualStyleBackColor = true;
             btnUploadFile.Click += btnUploadFile_Click;
             // 
             // btnPlayMusic
             // 
-            btnPlayMusic.Location = new Point(148, 3);
+            btnPlayMusic.Location = new Point(90, 3);
             btnPlayMusic.Name = "btnPlayMusic";
-            btnPlayMusic.Size = new Size(101, 94);
+            btnPlayMusic.Size = new Size(82, 94);
             btnPlayMusic.TabIndex = 7;
             btnPlayMusic.Text = "Play";
             btnPlayMusic.UseVisualStyleBackColor = true;
@@ -93,20 +95,30 @@
             // 
             button2.Location = new Point(0, 3);
             button2.Name = "button2";
-            button2.Size = new Size(142, 94);
+            button2.Size = new Size(84, 94);
             button2.TabIndex = 6;
             button2.Text = "Connect";
             button2.UseVisualStyleBackColor = true;
             // 
             // btnGetFiles
             // 
-            btnGetFiles.Location = new Point(255, 3);
+            btnGetFiles.Location = new Point(178, 3);
             btnGetFiles.Name = "btnGetFiles";
             btnGetFiles.Size = new Size(87, 94);
             btnGetFiles.TabIndex = 5;
             btnGetFiles.Text = "Get Files";
             btnGetFiles.UseVisualStyleBackColor = true;
             btnGetFiles.Click += btnGetFiles_Click;
+            // 
+            // btnDeleteFile
+            // 
+            btnDeleteFile.Location = new Point(368, 3);
+            btnDeleteFile.Name = "btnDeleteFile";
+            btnDeleteFile.Size = new Size(87, 94);
+            btnDeleteFile.TabIndex = 9;
+            btnDeleteFile.Text = "Delete File";
+            btnDeleteFile.UseVisualStyleBackColor = true;
+            btnDeleteFile.Click += btnDeleteFile_Click;
             // 
             // Form1
             // 
@@ -130,5 +142,6 @@
         private Button button2;
         private Button btnGetFiles;
         private Button btnUploadFile;
+        private Button btnDeleteFile;
     }
 }

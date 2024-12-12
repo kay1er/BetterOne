@@ -120,5 +120,24 @@ namespace BetterOne
             }
         }
 
+        private void btnDeleteFile_Click(object sender, EventArgs e)
+        {
+            var selectedClient = comboBoxClients.SelectedItem?.ToString();
+            var selectedFile = listBoxFiles.SelectedItem?.ToString();
+            if (selectedClient == null || selectedFile == null)
+            {
+                MessageBox.Show("Vui lòng chọn một client và một file để xóa!");
+                return;
+            }
+
+            var client = clients[selectedClient];
+            var stream = client.GetStream();
+
+            // Gửi lệnh xóa file
+            var message = Encoding.UTF8.GetBytes($"DELETE|{selectedFile}");
+            stream.Write(message, 0, message.Length);
+
+            MessageBox.Show("Yêu cầu xóa file đã được gửi!");
+        }
     }
 }

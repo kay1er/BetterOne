@@ -128,6 +128,21 @@ namespace Client
 
                 listBoxLog.Items.Add($"File received and saved: {fileName} ({fileSize} bytes)");
             }
+            else if (message.StartsWith("DELETE|"))
+            {
+                var fileName = message.Split('|')[1];
+                var filePath = Path.Combine(musicFolder, fileName);
+
+                if (File.Exists(filePath))
+                {
+                    File.Delete(filePath);
+                    listBoxLog.Items.Add($"File đã bị xóa: {fileName}");
+                }
+                else
+                {
+                    listBoxLog.Items.Add($"Không tìm thấy file: {fileName}");
+                }
+            }
         }
         private void btnBrowseFolder_Click(object sender, EventArgs e)
         {
