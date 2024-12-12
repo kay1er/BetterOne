@@ -97,26 +97,28 @@ namespace BetterOne
 
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
-                openFileDialog.Filter = "All Files (*.*)|*.*";
+                openFileDialog.Filter = "WAV Files (*.wav)|*.wav|All Files (*.*)|*.*";
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
                     var filePath = openFileDialog.FileName;
                     var fileName = Path.GetFileName(filePath);
+                    var fileBytes = File.ReadAllBytes(filePath);
+                    var fileSize = fileBytes.Length;
 
                     var client = clients[selectedClient];
                     var stream = client.GetStream();
 
-                    // Notify client about incoming file
-                    var message = Encoding.UTF8.GetBytes($"UPLOAD|{fileName}");
+                    // Gửi lệnh upload và tên file
+                    var message = Encoding.UTF8.GetBytes($"UPLOAD|{fileName}|{fileSize}");
                     stream.Write(message, 0, message.Length);
 
-                    // Send the file content
-                    var fileBytes = File.ReadAllBytes(filePath);
-                    stream.Write(fileBytes, 0, fileBytes.Length);
+                    // Gửi nội dung file
+                    stream.Write(fileBytes, 0, fileSize);
 
                     MessageBox.Show("File uploaded successfully!");
                 }
             }
         }
+
     }
 }

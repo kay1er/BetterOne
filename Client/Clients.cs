@@ -104,26 +104,29 @@ namespace Client
             }
             else if (message.StartsWith("UPLOAD|"))
             {
-                // Receive file from the server
-                var fileName = message.Split('|')[1];
+                // Tách thông tin file
+                var parts = message.Split('|');
+                var fileName = parts[1];
+                var fileSize = int.Parse(parts[2]);
                 var filePath = Path.Combine(musicFolder, fileName);
 
-                // Read the file content
+                // Nhận nội dung file
                 using (var fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
                 {
                     var buffer = new byte[4096];
-                    int bytesRead;
-                    while ((bytesRead = stream.Read(buffer, 0, buffer.Length)) > 0)
-                    {
-                        fileStream.Write(buffer, 0, bytesRead);
+                    int totalBytesRead = 0;
 
-                        // Break when file transfer is complete
-                        if (bytesRead < buffer.Length)
-                            break;
+                    while (totalBytesRead < fileSize)
+                    {
+                        int bytesRead = stream.Read(buffer, 0, Math.Min(buffer.Length, fileSize - totalBytesRead));
+                        if (bytesRead == 0) break;
+
+                        fileStream.Write(buffer, 0, bytesRead);
+                        totalBytesRead += bytesRead;
                     }
                 }
 
-                listBoxLog.Items.Add($"File received and saved: {fileName}");
+                listBoxLog.Items.Add($"File received and saved: {fileName} ({fileSize} bytes)");
             }
         }
         private void btnBrowseFolder_Click(object sender, EventArgs e)
