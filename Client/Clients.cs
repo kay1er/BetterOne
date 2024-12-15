@@ -143,6 +143,16 @@ namespace Client
                     listBoxLog.Items.Add($"Không tìm thấy file: {fileName}");
                 }
             }
+            else if (message.StartsWith("STOP|"))
+            {
+               var filename = message.Split('|')[1];
+                var filepath = Path.Combine(musicFolder, filename);
+                if (File.Exists(filepath)){
+                    var player = new SoundPlayer(filepath);
+                    player.Stop();
+                    listBoxLog.Items.Add("Music stopped");
+                }
+            }
         }
         private void btnBrowseFolder_Click(object sender, EventArgs e)
         {
