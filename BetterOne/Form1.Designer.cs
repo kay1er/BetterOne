@@ -31,12 +31,11 @@
             comboBoxClients = new ComboBox();
             listBoxFiles = new ListBox();
             panel1 = new Panel();
-            btnDeleteFile = new Button();
             btnUploadFile = new Button();
             btnPlayMusic = new Button();
             button2 = new Button();
             btnGetFiles = new Button();
-            btnStop = new Button();
+            btnDeleteFile = new Button();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -45,53 +44,38 @@
             comboBoxClients.Dock = DockStyle.Top;
             comboBoxClients.FormattingEnabled = true;
             comboBoxClients.Location = new Point(0, 0);
-            comboBoxClients.Margin = new Padding(3, 4, 3, 4);
             comboBoxClients.Name = "comboBoxClients";
-            comboBoxClients.Size = new Size(520, 28);
+            comboBoxClients.Size = new Size(455, 23);
             comboBoxClients.TabIndex = 2;
             // 
             // listBoxFiles
             // 
             listBoxFiles.Dock = DockStyle.Top;
             listBoxFiles.FormattingEnabled = true;
-            listBoxFiles.Location = new Point(0, 28);
-            listBoxFiles.Margin = new Padding(3, 4, 3, 4);
+            listBoxFiles.ItemHeight = 15;
+            listBoxFiles.Location = new Point(0, 23);
             listBoxFiles.Name = "listBoxFiles";
-            listBoxFiles.Size = new Size(520, 444);
+            listBoxFiles.Size = new Size(455, 334);
             listBoxFiles.TabIndex = 3;
             // 
             // panel1
             // 
-            panel1.Controls.Add(btnStop);
             panel1.Controls.Add(btnDeleteFile);
             panel1.Controls.Add(btnUploadFile);
             panel1.Controls.Add(btnPlayMusic);
             panel1.Controls.Add(button2);
             panel1.Controls.Add(btnGetFiles);
             panel1.Dock = DockStyle.Bottom;
-            panel1.Location = new Point(0, 467);
-            panel1.Margin = new Padding(3, 4, 3, 4);
+            panel1.Location = new Point(0, 350);
             panel1.Name = "panel1";
-            panel1.Size = new Size(520, 133);
+            panel1.Size = new Size(455, 100);
             panel1.TabIndex = 4;
-            // 
-            // btnDeleteFile
-            // 
-            btnDeleteFile.Location = new Point(350, 4);
-            btnDeleteFile.Margin = new Padding(3, 4, 3, 4);
-            btnDeleteFile.Name = "btnDeleteFile";
-            btnDeleteFile.Size = new Size(82, 125);
-            btnDeleteFile.TabIndex = 9;
-            btnDeleteFile.Text = "Delete File";
-            btnDeleteFile.UseVisualStyleBackColor = true;
-            btnDeleteFile.Click += btnDeleteFile_Click;
             // 
             // btnUploadFile
             // 
-            btnUploadFile.Location = new Point(261, 4);
-            btnUploadFile.Margin = new Padding(3, 4, 3, 4);
+            btnUploadFile.Location = new Point(275, 3);
             btnUploadFile.Name = "btnUploadFile";
-            btnUploadFile.Size = new Size(83, 125);
+            btnUploadFile.Size = new Size(87, 94);
             btnUploadFile.TabIndex = 8;
             btnUploadFile.Text = "Upload File";
             btnUploadFile.UseVisualStyleBackColor = true;
@@ -99,10 +83,9 @@
             // 
             // btnPlayMusic
             // 
-            btnPlayMusic.Location = new Point(83, 4);
-            btnPlayMusic.Margin = new Padding(3, 4, 3, 4);
+            btnPlayMusic.Location = new Point(90, 3);
             btnPlayMusic.Name = "btnPlayMusic";
-            btnPlayMusic.Size = new Size(84, 125);
+            btnPlayMusic.Size = new Size(82, 94);
             btnPlayMusic.TabIndex = 7;
             btnPlayMusic.Text = "Play";
             btnPlayMusic.UseVisualStyleBackColor = true;
@@ -110,45 +93,41 @@
             // 
             // button2
             // 
-            button2.Location = new Point(0, 4);
-            button2.Margin = new Padding(3, 4, 3, 4);
+            button2.Location = new Point(0, 3);
             button2.Name = "button2";
-            button2.Size = new Size(77, 125);
+            button2.Size = new Size(84, 94);
             button2.TabIndex = 6;
             button2.Text = "Connect";
             button2.UseVisualStyleBackColor = true;
             // 
             // btnGetFiles
             // 
-            btnGetFiles.Location = new Point(435, 4);
-            btnGetFiles.Margin = new Padding(3, 4, 3, 4);
+            btnGetFiles.Location = new Point(178, 3);
             btnGetFiles.Name = "btnGetFiles";
-            btnGetFiles.Size = new Size(82, 125);
+            btnGetFiles.Size = new Size(87, 94);
             btnGetFiles.TabIndex = 5;
             btnGetFiles.Text = "Get Files";
             btnGetFiles.UseVisualStyleBackColor = true;
             btnGetFiles.Click += btnGetFiles_Click;
             // 
-            // btnStop
+            // btnDeleteFile
             // 
-            btnStop.Location = new Point(173, 4);
-            btnStop.Margin = new Padding(3, 4, 3, 4);
-            btnStop.Name = "btnStop";
-            btnStop.Size = new Size(82, 125);
-            btnStop.TabIndex = 8;
-            btnStop.Text = "Stop";
-            btnStop.UseVisualStyleBackColor = true;
-            btnStop.Click += btnStop_Click;
+            btnDeleteFile.Location = new Point(368, 3);
+            btnDeleteFile.Name = "btnDeleteFile";
+            btnDeleteFile.Size = new Size(87, 94);
+            btnDeleteFile.TabIndex = 9;
+            btnDeleteFile.Text = "Delete File";
+            btnDeleteFile.UseVisualStyleBackColor = true;
+            btnDeleteFile.Click += btnDeleteFile_Click;
             // 
             // Form1
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(520, 600);
+            ClientSize = new Size(455, 450);
             Controls.Add(panel1);
             Controls.Add(listBoxFiles);
             Controls.Add(comboBoxClients);
-            Margin = new Padding(3, 4, 3, 4);
             Name = "Form1";
             Text = "Form1";
             panel1.ResumeLayout(false);
@@ -164,6 +143,5 @@
         private Button btnGetFiles;
         private Button btnUploadFile;
         private Button btnDeleteFile;
-        private Button btnStop;
     }
 }
