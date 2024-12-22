@@ -29,48 +29,57 @@
         private void InitializeComponent()
         {
             btnConnect = new Button();
+            btnBrowseFolder = new Button();
             listBoxLog = new ListBox();
             txtServerAddress = new TextBox();
             SuspendLayout();
             // 
             // btnConnect
             // 
-            btnConnect.Location = new Point(14, 417);
-            btnConnect.Margin = new Padding(3, 4, 3, 4);
+            btnConnect.Location = new Point(12, 313);
             btnConnect.Name = "btnConnect";
-            btnConnect.Size = new Size(420, 167);
+            btnConnect.Size = new Size(167, 125);
             btnConnect.TabIndex = 0;
             btnConnect.Text = "Connect";
             btnConnect.UseVisualStyleBackColor = true;
             btnConnect.Click += btnConnect_Click;
             // 
+            // btnBrowseFolder
+            // 
+            btnBrowseFolder.Location = new Point(225, 313);
+            btnBrowseFolder.Name = "btnBrowseFolder";
+            btnBrowseFolder.Size = new Size(167, 125);
+            btnBrowseFolder.TabIndex = 1;
+            btnBrowseFolder.Text = "Browse";
+            btnBrowseFolder.UseVisualStyleBackColor = true;
+            btnBrowseFolder.Click += btnBrowseFolder_Click;
+            // 
             // listBoxLog
             // 
             listBoxLog.FormattingEnabled = true;
-            listBoxLog.Location = new Point(14, 67);
-            listBoxLog.Margin = new Padding(3, 4, 3, 4);
+            listBoxLog.ItemHeight = 15;
+            listBoxLog.Location = new Point(12, 50);
             listBoxLog.Name = "listBoxLog";
             listBoxLog.ScrollAlwaysVisible = true;
-            listBoxLog.Size = new Size(434, 324);
+            listBoxLog.Size = new Size(380, 244);
             listBoxLog.TabIndex = 2;
             // 
             // txtServerAddress
             // 
-            txtServerAddress.Location = new Point(14, 16);
-            txtServerAddress.Margin = new Padding(3, 4, 3, 4);
+            txtServerAddress.Location = new Point(12, 12);
             txtServerAddress.Name = "txtServerAddress";
-            txtServerAddress.Size = new Size(434, 27);
+            txtServerAddress.Size = new Size(380, 23);
             txtServerAddress.TabIndex = 3;
             // 
             // Clients
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(462, 600);
+            ClientSize = new Size(404, 450);
             Controls.Add(txtServerAddress);
             Controls.Add(listBoxLog);
+            Controls.Add(btnBrowseFolder);
             Controls.Add(btnConnect);
-            Margin = new Padding(3, 4, 3, 4);
             Name = "Clients";
             Text = "Clients";
             ResumeLayout(false);
@@ -80,6 +89,7 @@
         #endregion
 
         private Button btnConnect;
+        private Button btnBrowseFolder;
         private ListBox listBoxLog;
         private TextBox txtServerAddress;
     }

@@ -31,14 +31,12 @@
             comboBoxClients = new ComboBox();
             listBoxFiles = new ListBox();
             panel1 = new Panel();
-            btnStop = new Button();
             btnDeleteFile = new Button();
             btnUploadFile = new Button();
             btnPlayMusic = new Button();
             button2 = new Button();
             btnGetFiles = new Button();
-            txtServerLog = new TextBox();
-            btnBrowse = new Button();
+            btnStop = new Button();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -49,7 +47,7 @@
             comboBoxClients.Location = new Point(0, 0);
             comboBoxClients.Margin = new Padding(3, 4, 3, 4);
             comboBoxClients.Name = "comboBoxClients";
-            comboBoxClients.Size = new Size(611, 28);
+            comboBoxClients.Size = new Size(520, 28);
             comboBoxClients.TabIndex = 2;
             // 
             // listBoxFiles
@@ -59,13 +57,11 @@
             listBoxFiles.Location = new Point(0, 28);
             listBoxFiles.Margin = new Padding(3, 4, 3, 4);
             listBoxFiles.Name = "listBoxFiles";
-            listBoxFiles.ScrollAlwaysVisible = true;
-            listBoxFiles.Size = new Size(611, 164);
+            listBoxFiles.Size = new Size(520, 444);
             listBoxFiles.TabIndex = 3;
             // 
             // panel1
             // 
-            panel1.Controls.Add(btnBrowse);
             panel1.Controls.Add(btnStop);
             panel1.Controls.Add(btnDeleteFile);
             panel1.Controls.Add(btnUploadFile);
@@ -76,19 +72,8 @@
             panel1.Location = new Point(0, 467);
             panel1.Margin = new Padding(3, 4, 3, 4);
             panel1.Name = "panel1";
-            panel1.Size = new Size(611, 133);
+            panel1.Size = new Size(520, 133);
             panel1.TabIndex = 4;
-            // 
-            // btnStop
-            // 
-            btnStop.Location = new Point(173, 4);
-            btnStop.Margin = new Padding(3, 4, 3, 4);
-            btnStop.Name = "btnStop";
-            btnStop.Size = new Size(82, 125);
-            btnStop.TabIndex = 8;
-            btnStop.Text = "Stop";
-            btnStop.UseVisualStyleBackColor = true;
-            btnStop.Click += btnStop_Click;
             // 
             // btnDeleteFile
             // 
@@ -144,32 +129,22 @@
             btnGetFiles.UseVisualStyleBackColor = true;
             btnGetFiles.Click += btnGetFiles_Click;
             // 
-            // txtServerLog
+            // btnStop
             // 
-            txtServerLog.Location = new Point(12, 199);
-            txtServerLog.Multiline = true;
-            txtServerLog.Name = "txtServerLog";
-            txtServerLog.ScrollBars = ScrollBars.Both;
-            txtServerLog.Size = new Size(587, 261);
-            txtServerLog.TabIndex = 5;
-            // 
-            // btnBrowse
-            // 
-            btnBrowse.Location = new Point(523, 4);
-            btnBrowse.Margin = new Padding(3, 4, 3, 4);
-            btnBrowse.Name = "btnBrowse";
-            btnBrowse.Size = new Size(82, 125);
-            btnBrowse.TabIndex = 10;
-            btnBrowse.Text = "Browse Folder";
-            btnBrowse.UseVisualStyleBackColor = true;
-            btnBrowse.Click += btnBrowse_Click;
+            btnStop.Location = new Point(173, 4);
+            btnStop.Margin = new Padding(3, 4, 3, 4);
+            btnStop.Name = "btnStop";
+            btnStop.Size = new Size(82, 125);
+            btnStop.TabIndex = 8;
+            btnStop.Text = "Stop";
+            btnStop.UseVisualStyleBackColor = true;
+            btnStop.Click += btnStop_Click;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(611, 600);
-            Controls.Add(txtServerLog);
+            ClientSize = new Size(520, 600);
             Controls.Add(panel1);
             Controls.Add(listBoxFiles);
             Controls.Add(comboBoxClients);
@@ -178,7 +153,6 @@
             Text = "Form1";
             panel1.ResumeLayout(false);
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
@@ -191,7 +165,5 @@
         private Button btnUploadFile;
         private Button btnDeleteFile;
         private Button btnStop;
-        private TextBox txtServerLog;
-        private Button btnBrowse;
     }
 }
