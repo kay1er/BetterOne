@@ -85,6 +85,23 @@ namespace Client
 
                 listBoxLog.Items.Add("Sent list of WAV files to server.");
             }
+            else if (message == "BROWSE")
+            {
+                // Allow the user to browse and select a folder
+                using (var folderDialog = new FolderBrowserDialog())
+                {
+                    if (folderDialog.ShowDialog() == DialogResult.OK)
+                    {
+                        musicFolder = folderDialog.SelectedPath;
+                        listBoxLog.Items.Add($"Đã chọn thư mục nhạc: {musicFolder}");
+
+                        // Notify the server of the updated music folder
+                        var response = Encoding.UTF8.GetBytes($"FOLDER_SELECTED|{musicFolder}");
+                        stream.Write(response, 0, response.Length);
+                    }
+                }
+            }
+
             else if (message.StartsWith("PLAY|"))
             {
                 // Play the requested music file
@@ -145,25 +162,16 @@ namespace Client
             }
             else if (message.StartsWith("STOP|"))
             {
-               var filename = message.Split('|')[1];
+                var filename = message.Split('|')[1];
                 var filepath = Path.Combine(musicFolder, filename);
-                if (File.Exists(filepath)){
+                if (File.Exists(filepath))
+                {
                     var player = new SoundPlayer(filepath);
                     player.Stop();
                     listBoxLog.Items.Add("Music stopped");
                 }
             }
         }
-        private void btnBrowseFolder_Click(object sender, EventArgs e)
-        {
-            using (var folderDialog = new FolderBrowserDialog())
-            {
-                if (folderDialog.ShowDialog() == DialogResult.OK)
-                {
-                    musicFolder = folderDialog.SelectedPath;
-                    listBoxLog.Items.Add($"Đã chọn thư mục nhạc: {musicFolder}");
-                }
-            }
-        }
+
     }
 }

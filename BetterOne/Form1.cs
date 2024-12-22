@@ -33,6 +33,7 @@ namespace BetterOne
             Invoke(new Action(() =>
             {
                 comboBoxClients.Items.Add(endPoint);
+                txtServerLog.Text += $"Client {endPoint} đã kết nối thành công {Environment.NewLine}";
             }));
 
             // Tiếp tục chấp nhận kết nối
@@ -43,7 +44,7 @@ namespace BetterOne
             var selectedClient = comboBoxClients.SelectedItem?.ToString();
             if (selectedClient == null || !clients.ContainsKey(selectedClient))
             {
-                MessageBox.Show("Vui lòng chọn một client!");
+                txtServerLog.Text += $"Vui lòng chọn một client {Environment.NewLine}";
                 return;
             }
 
@@ -66,11 +67,12 @@ namespace BetterOne
                 if (!string.IsNullOrWhiteSpace(file))
                     listBoxFiles.Items.Add(file);
             }
+            txtServerLog.Text += $"Đã gửi yêu cầu hiển thị file {Environment.NewLine}";
         }
         private void btnStop_Click(object sender, EventArgs e)
         {
             var selectedClient = comboBoxClients.SelectedItem?.ToString();
-            var selectedFile  = listBoxFiles.SelectedItem?.ToString();
+            var selectedFile = listBoxFiles.SelectedItem?.ToString();
             if (selectedFile == null && selectedClient == null)
             {
                 MessageBox.Show("Error");
@@ -79,7 +81,7 @@ namespace BetterOne
             var client = clients[selectedClient];
             var stream = client.GetStream();
             var message = Encoding.UTF8.GetBytes($"STOP|{selectedFile}");
-            stream.Write(message,0,message.Length);
+            stream.Write(message, 0, message.Length);
         }
         private void btnPlayMusic_Click(object sender, EventArgs e)
         {
@@ -87,7 +89,7 @@ namespace BetterOne
             var selectedFile = listBoxFiles.SelectedItem?.ToString();
             if (selectedClient == null || selectedFile == null)
             {
-                MessageBox.Show("Vui lòng chọn một client và một file để phát!");
+                txtServerLog.Text += $"Vui lòng chọn một client và một file để phát nhạc";
                 return;
             }
 
@@ -104,7 +106,7 @@ namespace BetterOne
             var selectedClient = comboBoxClients.SelectedItem?.ToString();
             if (selectedClient == null || !clients.ContainsKey(selectedClient))
             {
-                MessageBox.Show("Vui lòng chọn một client!");
+                txtServerLog.Text += $"Vui lòng chọn một client {Environment.NewLine}";
                 return;
             }
 
@@ -128,7 +130,7 @@ namespace BetterOne
                     // Gửi nội dung file
                     stream.Write(fileBytes, 0, fileSize);
 
-                    MessageBox.Show("File uploaded successfully!");
+                    txtServerLog.Text += $"Gửi file thành công {Environment.NewLine}";
                 }
             }
         }
@@ -139,7 +141,7 @@ namespace BetterOne
             var selectedFile = listBoxFiles.SelectedItem?.ToString();
             if (selectedClient == null || selectedFile == null)
             {
-                MessageBox.Show("Vui lòng chọn một client và một file để xóa!");
+                txtServerLog.Text += $"Vui lòng chọn một client và một file để xóa {Environment.NewLine}";
                 return;
             }
 
@@ -150,9 +152,21 @@ namespace BetterOne
             var message = Encoding.UTF8.GetBytes($"DELETE|{selectedFile}");
             stream.Write(message, 0, message.Length);
 
-            MessageBox.Show("Yêu cầu xóa file đã được gửi!");
+            txtServerLog.Text += $"Yêu cầu xóa file đã được gửi!";
         }
 
-        
+        private void btnBrowse_Click(object sender, EventArgs e)
+        {
+            var selectedClient = comboBoxClients.SelectedItem?.ToString();
+            var selectedFile = listBoxFiles.SelectedItems?.ToString();
+            if (selectedClient == null || selectedFile == null)
+            {
+                txtServerLog.Text += $"Vui lòng chọn client{Environment.NewLine}";
+            }
+            var client = clients[selectedClient];
+            var stream = client.GetStream();
+            var message = Encoding.UTF8.GetBytes($"BROWSE|");
+            txtServerLog.Text += $"Yêu cầu chọn thư mục đã được gửi {Environment.NewLine}";
+        }
     }
 }
