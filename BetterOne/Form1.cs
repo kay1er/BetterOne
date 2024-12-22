@@ -67,7 +67,20 @@ namespace BetterOne
                     listBoxFiles.Items.Add(file);
             }
         }
-
+        private void btnStop_Click(object sender, EventArgs e)
+        {
+            var selectedClient = comboBoxClients.SelectedItem?.ToString();
+            var selectedFile  = listBoxFiles.SelectedItem?.ToString();
+            if (selectedFile == null && selectedClient == null)
+            {
+                MessageBox.Show("Error");
+                return;
+            }
+            var client = clients[selectedClient];
+            var stream = client.GetStream();
+            var message = Encoding.UTF8.GetBytes($"STOP|{selectedFile}");
+            stream.Write(message,0,message.Length);
+        }
         private void btnPlayMusic_Click(object sender, EventArgs e)
         {
             var selectedClient = comboBoxClients.SelectedItem?.ToString();
@@ -139,5 +152,7 @@ namespace BetterOne
 
             MessageBox.Show("Yêu cầu xóa file đã được gửi!");
         }
+
+        
     }
 }
