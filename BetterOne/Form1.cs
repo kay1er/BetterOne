@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -136,6 +137,29 @@ namespace BetterOne
                 }
             }
         }
+        private void ProcessServerMessage(NetworkStream stream)
+        {
+            // Example of handling message from client
+            byte[] buffer = new byte[4096];
+            int bytesRead = stream.Read(buffer, 0, buffer.Length);
+            var message = Encoding.UTF8.GetString(buffer, 0, bytesRead);
+
+            if (message.StartsWith("FOLDER_SELECTED|"))
+            {
+                var folderPath = message.Split('|')[1];
+
+                // Handle the folder path (for example, get the list of files)
+                var files = Directory.GetFiles(folderPath, "*.wav");
+                var fileList = string.Join("|", files);
+
+                // Send the file list back to the client
+                var response = Encoding.UTF8.GetBytes(fileList);
+                stream.Write(response, 0, response.Length);
+
+                txtServerLog.Text += $"Đã gửi danh sách file từ thư mục {folderPath} {Environment.NewLine}";
+            }
+        }
+
 
         private void btnDeleteFile_Click(object sender, EventArgs e)
         {
@@ -160,15 +184,38 @@ namespace BetterOne
         private void btnBrowse_Click(object sender, EventArgs e)
         {
             var selectedClient = comboBoxClients.SelectedItem?.ToString();
-            var selectedFile = listBoxFiles.SelectedItems?.ToString();
-            if (selectedClient == null || selectedFile == null)
+            if (selectedClient == null)
             {
                 txtServerLog.Text += $"Vui lòng chọn client{Environment.NewLine}";
+                return;
             }
+
             var client = clients[selectedClient];
             var stream = client.GetStream();
-            var message = Encoding.UTF8.GetBytes($"BROWSE|");
+            var message = Encoding.UTF8.GetBytes("BROWSE|");
             txtServerLog.Text += $"Yêu cầu chọn thư mục đã được gửi {Environment.NewLine}";
+            stream.Write(message, 0, message.Length);
+
+            // Now, wait for the folder path response and process the files.
+            var buffer = new byte[4096];
+            int bytesRead = stream.Read(buffer, 0, buffer.Length);
+            var folderPath = Encoding.UTF8.GetString(buffer, 0, bytesRead);
+
+            if (Directory.Exists(folderPath))
+            {
+                var files = Directory.GetFiles(folderPath, "*.wav");
+                listBoxFiles.Items.Clear();
+                foreach (var file in files)
+                {
+                    listBoxFiles.Items.Add(Path.GetFileName(file));
+                }
+            }
+            else
+            {
+                txtServerLog.Text += $"Không tìm thấy thư mục: {folderPath} {Environment.NewLine}";
+            }
         }
+
+
     }
 }
