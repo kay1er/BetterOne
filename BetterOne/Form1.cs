@@ -137,7 +137,7 @@ namespace BetterOne
                 }
             }
         }
-        private void ProcessServerMessage(NetworkStream stream,string message)
+        private void ProcessServerMessage(string message)
         {
             if (message.StartsWith("FOLDER_SELECTED|"))
             {
@@ -162,6 +162,7 @@ namespace BetterOne
                 txtServerLog.Text += $"Danh sách file đã được hiển thị.\n";
             }
         }
+
 
 
         private void btnDeleteFile_Click(object sender, EventArgs e)
@@ -202,6 +203,7 @@ namespace BetterOne
 
             txtServerLog.Text += "Yêu cầu client mở Folder Dialog đã được gửi.\n";
         }
+
 
 
 

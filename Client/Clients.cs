@@ -87,21 +87,24 @@ namespace Client
             }
             else if (message == "BROWSE")
             {
-                // Mở Folder Dialog cho người dùng chọn thư mục
-                using (FolderBrowserDialog folderDialog = new FolderBrowserDialog())
+                // Đảm bảo Folder Dialog mở trong UI thread
+                Invoke(new Action(() =>
                 {
-                    if (folderDialog.ShowDialog() == DialogResult.OK)
+                    using (FolderBrowserDialog folderDialog = new FolderBrowserDialog())
                     {
-                        var folderPath = folderDialog.SelectedPath;
+                        if (folderDialog.ShowDialog() == DialogResult.OK)
+                        {
+                            var folderPath = folderDialog.SelectedPath;
 
-                        // Gửi đường dẫn thư mục về server
-                        var responseMessage = Encoding.UTF8.GetBytes($"FOLDER_SELECTED|{folderPath}");
-                        var stream = client.GetStream();
-                        stream.Write(responseMessage, 0, responseMessage.Length);
+                            // Gửi đường dẫn thư mục về server
+                            var responseMessage = Encoding.UTF8.GetBytes($"FOLDER_SELECTED|{folderPath}");
+                            var stream = client.GetStream();
+                            stream.Write(responseMessage, 0, responseMessage.Length);
 
-                        
+                            
+                        }
                     }
-                }
+                }));
             }
 
 
