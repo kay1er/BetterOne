@@ -52,23 +52,11 @@ namespace BetterOne
             var client = clients[selectedClient];
             var stream = client.GetStream();
 
-            // Gửi yêu cầu lấy file
+            // Gửi yêu cầu lấy danh sách file
             var message = Encoding.UTF8.GetBytes("GET_FILES");
             stream.Write(message, 0, message.Length);
 
-            // Đọc danh sách file từ client
-            var buffer = new byte[4096];
-            int bytesRead = stream.Read(buffer, 0, buffer.Length);
-            var fileList = Encoding.UTF8.GetString(buffer, 0, bytesRead);
-
-            // Hiển thị danh sách file trong ListBox
-            listBoxFiles.Items.Clear();
-            foreach (var file in fileList.Split('|'))
-            {
-                if (!string.IsNullOrWhiteSpace(file))
-                    listBoxFiles.Items.Add(file);
-            }
-            txtServerLog.Text += $"Đã gửi yêu cầu hiển thị file {Environment.NewLine}";
+            txtServerLog.Text += $"Đã gửi yêu cầu lấy danh sách file từ client {Environment.NewLine}";
         }
         private void btnStop_Click(object sender, EventArgs e)
         {
@@ -139,29 +127,25 @@ namespace BetterOne
         }
         private void ProcessServerMessage(string message)
         {
-            if (message.StartsWith("FOLDER_SELECTED|"))
+            // Kiểm tra xem message có phải là danh sách file
+            var files = message.Split('|');
+            if (files.Length > 0)
             {
-                var folderPath = message.Split('|')[1];
-
-                // Lấy danh sách file trong thư mục đã chọn
-                var files = Directory.GetFiles(folderPath, "*.wav");
-                var fileList = string.Join("|", files);
-
-                // Hiển thị danh sách file trong ListBox
                 Invoke(new Action(() =>
                 {
                     listBoxFiles.Items.Clear();
-                    foreach (var file in fileList.Split('|'))
+                    foreach (var file in files)
                     {
                         if (!string.IsNullOrWhiteSpace(file))
                             listBoxFiles.Items.Add(file);
                     }
                 }));
 
-                txtServerLog.Text += $"Đã nhận đường dẫn thư mục: {folderPath}\n";
-                txtServerLog.Text += $"Danh sách file đã được hiển thị.\n";
+                txtServerLog.Text += $"Đã nhận và hiển thị danh sách file từ client {Environment.NewLine}";
             }
         }
+
+
 
 
 

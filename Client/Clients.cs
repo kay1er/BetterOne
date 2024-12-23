@@ -17,6 +17,7 @@ namespace Client
         private TcpClient client;
         private NetworkStream stream;
         private string musicFolder = @"C:\Music"; // Thư mục mặc định chứa file WAV
+        private string selectedFolderPath; // Khai báo biến toàn cục để lưu đường dẫn thư mục
 
         public Clients()
         {
@@ -75,15 +76,20 @@ namespace Client
         {
             if (message == "GET_FILES")
             {
-                // Get list of WAV files in the folder
-                var files = Directory.GetFiles(musicFolder, "*.wav");
-                var fileList = string.Join("|", files);
+                // Kiểm tra xem thư mục đã được chọn chưa
+                if (!string.IsNullOrEmpty(selectedFolderPath) && Directory.Exists(selectedFolderPath))
+                {
+                    var files = Directory.GetFiles(selectedFolderPath, "*.wav");
+                    var fileList = string.Join("|", files);
 
-                // Send file list back to the server
-                var response = Encoding.UTF8.GetBytes(fileList);
-                stream.Write(response, 0, response.Length);
-
-                listBoxLog.Items.Add("Đã gửi danh sách nhạc tới server.");
+                    // Gửi danh sách file lại cho server
+                    var responseMessage = Encoding.UTF8.GetBytes(fileList);
+                    stream.Write(responseMessage, 0, responseMessage.Length);
+                }
+                else
+                {
+                    listBoxLog.Items.Add("Chưa chọn thư mục hoặc thư mục không hợp lệ.");
+                }
             }
             else if (message == "BROWSE")
             {
@@ -94,14 +100,13 @@ namespace Client
                     {
                         if (folderDialog.ShowDialog() == DialogResult.OK)
                         {
-                            var folderPath = folderDialog.SelectedPath;
+                            selectedFolderPath = folderDialog.SelectedPath; // Lưu đường dẫn thư mục đã chọn
 
                             // Gửi đường dẫn thư mục về server
-                            var responseMessage = Encoding.UTF8.GetBytes($"FOLDER_SELECTED|{folderPath}");
-                            var stream = client.GetStream();
+                            var responseMessage = Encoding.UTF8.GetBytes($"FOLDER_SELECTED|{selectedFolderPath}");
                             stream.Write(responseMessage, 0, responseMessage.Length);
 
-                            
+                            listBoxLog.Items.Add($"Đã chọn thư mục: {selectedFolderPath}");
                         }
                     }
                 }));
