@@ -85,19 +85,21 @@ namespace Client
 
                 listBoxLog.Items.Add("Đã gửi danh sách nhạc tới server.");
             }
-            else if (message == "BROWSE|")
+            else if (message == "BROWSE")
             {
-                // Allow the user to browse and select a folder
-                using (var folderDialog = new FolderBrowserDialog())
+                // Mở Folder Dialog cho người dùng chọn thư mục
+                using (FolderBrowserDialog folderDialog = new FolderBrowserDialog())
                 {
                     if (folderDialog.ShowDialog() == DialogResult.OK)
                     {
-                        musicFolder = folderDialog.SelectedPath;
-                        listBoxLog.Items.Add($"Đã chọn thư mục nhạc: {musicFolder}");
+                        var folderPath = folderDialog.SelectedPath;
 
-                        // Notify the server of the updated music folder
-                        var response = Encoding.UTF8.GetBytes($"FOLDER_SELECTED|{musicFolder}");
-                        stream.Write(response, 0, response.Length);
+                        // Gửi đường dẫn thư mục về server
+                        var responseMessage = Encoding.UTF8.GetBytes($"FOLDER_SELECTED|{folderPath}");
+                        var stream = client.GetStream();
+                        stream.Write(responseMessage, 0, responseMessage.Length);
+
+                        
                     }
                 }
             }
