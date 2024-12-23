@@ -81,6 +81,7 @@ namespace BetterOne
             var client = clients[selectedClient];
             var stream = client.GetStream();
             var message = Encoding.UTF8.GetBytes($"STOP|{selectedFile}");
+            txtServerLog.Text += $"Đã gửi yêu cầu dừng nhạc {Environment.NewLine}";
             stream.Write(message, 0, message.Length);
         }
         private void btnPlayMusic_Click(object sender, EventArgs e)
@@ -98,6 +99,7 @@ namespace BetterOne
 
             // Gửi yêu cầu phát file
             var message = Encoding.UTF8.GetBytes($"PLAY|{selectedFile}");
+            txtServerLog.Text += $"Đã gửi yêu cầu phát nhạc {Environment.NewLine}";
             stream.Write(message, 0, message.Length);
         }
 

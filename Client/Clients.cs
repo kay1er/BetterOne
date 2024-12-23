@@ -83,9 +83,9 @@ namespace Client
                 var response = Encoding.UTF8.GetBytes(fileList);
                 stream.Write(response, 0, response.Length);
 
-                listBoxLog.Items.Add("Sent list of WAV files to server.");
+                listBoxLog.Items.Add("Đã gửi danh sách nhạc tới server.");
             }
-            else if (message == "BROWSE")
+            else if (message == "BROWSE|")
             {
                 // Allow the user to browse and select a folder
                 using (var folderDialog = new FolderBrowserDialog())
@@ -112,11 +112,11 @@ namespace Client
                     var player = new SoundPlayer(filePath);
                     player.Play();
 
-                    listBoxLog.Items.Add($"Playing music: {fileName}");
+                    listBoxLog.Items.Add($"Đang chơi: {fileName}");
                 }
                 else
                 {
-                    listBoxLog.Items.Add($"File does not exist: {fileName}");
+                    listBoxLog.Items.Add($"File không tồn tại: {fileName}");
                 }
             }
             else if (message.StartsWith("UPLOAD|"))
@@ -143,7 +143,7 @@ namespace Client
                     }
                 }
 
-                listBoxLog.Items.Add($"File received and saved: {fileName} ({fileSize} bytes)");
+                listBoxLog.Items.Add($"File được nhận từ server: {fileName} ({fileSize} bytes)");
             }
             else if (message.StartsWith("DELETE|"))
             {
@@ -168,7 +168,7 @@ namespace Client
                 {
                     var player = new SoundPlayer(filepath);
                     player.Stop();
-                    listBoxLog.Items.Add("Music stopped");
+                    listBoxLog.Items.Add("Nhạc đã dừng");
                 }
             }
         }
