@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -52,11 +51,23 @@ namespace BetterOne
             var client = clients[selectedClient];
             var stream = client.GetStream();
 
-            // Gửi yêu cầu lấy danh sách file
+            // Gửi yêu cầu lấy file
             var message = Encoding.UTF8.GetBytes("GET_FILES");
             stream.Write(message, 0, message.Length);
 
-            txtServerLog.Text += $"Đã gửi yêu cầu lấy danh sách file từ client {Environment.NewLine}";
+            // Đọc danh sách file từ client
+            var buffer = new byte[4096];
+            int bytesRead = stream.Read(buffer, 0, buffer.Length);
+            var fileList = Encoding.UTF8.GetString(buffer, 0, bytesRead);
+
+            // Hiển thị danh sách file trong ListBox
+            listBoxFiles.Items.Clear();
+            foreach (var file in fileList.Split('|'))
+            {
+                if (!string.IsNullOrWhiteSpace(file))
+                    listBoxFiles.Items.Add(file);
+            }
+            txtServerLog.Text += $"Đã gửi yêu cầu hiển thị file {Environment.NewLine}";
         }
         private void btnStop_Click(object sender, EventArgs e)
         {
@@ -125,29 +136,6 @@ namespace BetterOne
                 }
             }
         }
-        private void ProcessServerMessage(string message)
-        {
-            // Kiểm tra xem message có phải là danh sách file
-            var files = message.Split('|');
-            if (files.Length > 0)
-            {
-                Invoke(new Action(() =>
-                {
-                    listBoxFiles.Items.Clear();
-                    foreach (var file in files)
-                    {
-                        if (!string.IsNullOrWhiteSpace(file))
-                            listBoxFiles.Items.Add(file);
-                    }
-                }));
-
-                txtServerLog.Text += $"Đã nhận và hiển thị danh sách file từ client {Environment.NewLine}";
-            }
-        }
-
-
-
-
 
         private void btnDeleteFile_Click(object sender, EventArgs e)
         {
@@ -172,24 +160,15 @@ namespace BetterOne
         private void btnBrowse_Click(object sender, EventArgs e)
         {
             var selectedClient = comboBoxClients.SelectedItem?.ToString();
-            if (selectedClient == null)
+            var selectedFile = listBoxFiles.SelectedItems?.ToString();
+            if (selectedClient == null || selectedFile == null)
             {
-                txtServerLog.Text += $"Vui lòng chọn một client{Environment.NewLine}";
-                return;
+                txtServerLog.Text += $"Vui lòng chọn client{Environment.NewLine}";
             }
-
             var client = clients[selectedClient];
             var stream = client.GetStream();
-
-            // Gửi lệnh yêu cầu client mở Folder Dialog
-            var message = Encoding.UTF8.GetBytes("BROWSE");
-            stream.Write(message, 0, message.Length);
-
-            txtServerLog.Text += "Yêu cầu client mở Folder Dialog đã được gửi.\n";
+            var message = Encoding.UTF8.GetBytes($"BROWSE|");
+            txtServerLog.Text += $"Yêu cầu chọn thư mục đã được gửi {Environment.NewLine}";
         }
-
-
-
-
     }
 }

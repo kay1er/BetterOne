@@ -17,7 +17,6 @@ namespace Client
         private TcpClient client;
         private NetworkStream stream;
         private string musicFolder = @"C:\Music"; // Thư mục mặc định chứa file WAV
-        private string selectedFolderPath; // Khai báo biến toàn cục để lưu đường dẫn thư mục
 
         public Clients()
         {
@@ -76,42 +75,32 @@ namespace Client
         {
             if (message == "GET_FILES")
             {
-                // Kiểm tra xem thư mục đã được chọn chưa
-                if (!string.IsNullOrEmpty(selectedFolderPath) && Directory.Exists(selectedFolderPath))
-                {
-                    var files = Directory.GetFiles(selectedFolderPath, "*.wav");
-                    var fileList = string.Join("|", files);
+                // Get list of WAV files in the folder
+                var files = Directory.GetFiles(musicFolder, "*.wav");
+                var fileList = string.Join("|", files);
 
-                    // Gửi danh sách file lại cho server
-                    var responseMessage = Encoding.UTF8.GetBytes(fileList);
-                    stream.Write(responseMessage, 0, responseMessage.Length);
-                }
-                else
-                {
-                    listBoxLog.Items.Add("Chưa chọn thư mục hoặc thư mục không hợp lệ.");
-                }
+                // Send file list back to the server
+                var response = Encoding.UTF8.GetBytes(fileList);
+                stream.Write(response, 0, response.Length);
+
+                listBoxLog.Items.Add("Đã gửi danh sách nhạc tới server.");
             }
-            else if (message == "BROWSE")
+            else if (message == "BROWSE|")
             {
-                // Đảm bảo Folder Dialog mở trong UI thread
-                Invoke(new Action(() =>
+                // Allow the user to browse and select a folder
+                using (var folderDialog = new FolderBrowserDialog())
                 {
-                    using (FolderBrowserDialog folderDialog = new FolderBrowserDialog())
+                    if (folderDialog.ShowDialog() == DialogResult.OK)
                     {
-                        if (folderDialog.ShowDialog() == DialogResult.OK)
-                        {
-                            selectedFolderPath = folderDialog.SelectedPath; // Lưu đường dẫn thư mục đã chọn
+                        musicFolder = folderDialog.SelectedPath;
+                        listBoxLog.Items.Add($"Đã chọn thư mục nhạc: {musicFolder}");
 
-                            // Gửi đường dẫn thư mục về server
-                            var responseMessage = Encoding.UTF8.GetBytes($"FOLDER_SELECTED|{selectedFolderPath}");
-                            stream.Write(responseMessage, 0, responseMessage.Length);
-
-                            listBoxLog.Items.Add($"Đã chọn thư mục: {selectedFolderPath}");
-                        }
+                        // Notify the server of the updated music folder
+                        var response = Encoding.UTF8.GetBytes($"FOLDER_SELECTED|{musicFolder}");
+                        stream.Write(response, 0, response.Length);
                     }
-                }));
+                }
             }
-
 
             else if (message.StartsWith("PLAY|"))
             {

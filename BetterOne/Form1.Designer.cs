@@ -31,7 +31,6 @@
             comboBoxClients = new ComboBox();
             listBoxFiles = new ListBox();
             panel1 = new Panel();
-            btnBrowse = new Button();
             btnStop = new Button();
             btnDeleteFile = new Button();
             btnUploadFile = new Button();
@@ -48,7 +47,7 @@
             comboBoxClients.FormattingEnabled = true;
             comboBoxClients.Location = new Point(0, 0);
             comboBoxClients.Name = "comboBoxClients";
-            comboBoxClients.Size = new Size(535, 23);
+            comboBoxClients.Size = new Size(459, 23);
             comboBoxClients.TabIndex = 2;
             // 
             // listBoxFiles
@@ -59,12 +58,11 @@
             listBoxFiles.Location = new Point(0, 23);
             listBoxFiles.Name = "listBoxFiles";
             listBoxFiles.ScrollAlwaysVisible = true;
-            listBoxFiles.Size = new Size(535, 124);
+            listBoxFiles.Size = new Size(459, 124);
             listBoxFiles.TabIndex = 3;
             // 
             // panel1
             // 
-            panel1.Controls.Add(btnBrowse);
             panel1.Controls.Add(btnStop);
             panel1.Controls.Add(btnDeleteFile);
             panel1.Controls.Add(btnUploadFile);
@@ -74,18 +72,8 @@
             panel1.Dock = DockStyle.Bottom;
             panel1.Location = new Point(0, 350);
             panel1.Name = "panel1";
-            panel1.Size = new Size(535, 100);
+            panel1.Size = new Size(459, 100);
             panel1.TabIndex = 4;
-            // 
-            // btnBrowse
-            // 
-            btnBrowse.Location = new Point(458, 3);
-            btnBrowse.Name = "btnBrowse";
-            btnBrowse.Size = new Size(72, 94);
-            btnBrowse.TabIndex = 10;
-            btnBrowse.Text = "Browse Folder";
-            btnBrowse.UseVisualStyleBackColor = true;
-            btnBrowse.Click += btnBrowse_Click;
             // 
             // btnStop
             // 
@@ -160,7 +148,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(535, 450);
+            ClientSize = new Size(459, 450);
             Controls.Add(txtServerLog);
             Controls.Add(panel1);
             Controls.Add(listBoxFiles);
@@ -183,6 +171,5 @@
         private Button btnDeleteFile;
         private Button btnStop;
         private TextBox txtServerLog;
-        private Button btnBrowse;
     }
 }
